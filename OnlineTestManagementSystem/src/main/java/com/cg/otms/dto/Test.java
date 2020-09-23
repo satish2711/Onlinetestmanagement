@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Entity                             //Indicates that the class is an entity
 @Table(name="TestDetails")          //specifies the table name
@@ -104,7 +105,5 @@ public class Test {
 	public void setTestQuestions(Set<Question> testQuestions) {
 		this.testQuestions = testQuestions;
 	}
-	
-	
 	
 }

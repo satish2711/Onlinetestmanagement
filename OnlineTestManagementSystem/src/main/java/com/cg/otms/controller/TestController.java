@@ -35,7 +35,7 @@ public class TestController {
 	TestService testservice;    //Enabling Dependency injection
 	
 	   //Adding Test details into database
-		@PostMapping("/addTest")            //Mapping the url to add test
+		@PostMapping("/addTest")            //Mapping the URL to add test
 		public ResponseEntity<String> addTest(@RequestBody Test test) {
 			
 			Test testDetails = testservice.addTest(test);    //Invoking a method - addTest

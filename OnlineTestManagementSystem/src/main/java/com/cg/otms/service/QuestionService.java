@@ -14,25 +14,36 @@ import com.cg.otms.dao.TestDao;
 import com.cg.otms.dto.Question;
 import com.cg.otms.dto.Test;
 
-@Service
-@Transactional
+@Service								//Indicates that the annotated class is service
+@Transactional							//Defines the scope of a single database transaction
 public class QuestionService {
-@Autowired
-TestDao testdao;
-@Autowired
-QuestionDao questiondao;
+@Autowired								//enables to inject the object dependency implicitly
+TestDao testdao;                 //Enabling Dependency injection
+public void setTestDao(TestDao testDao) 
+{
+	this.testdao = testDao;
+}
+@Autowired								//enables to inject the object dependency implicitly
+QuestionDao questiondao;				//Enabling Dependency injection
+
+public void setQuestiondao(QuestionDao questionDao)
+{
+	this.questiondao = questionDao;
+}
+
+public QuestionService() {}
 
 //Add question
 	public Test addQuestion(BigInteger testId,Question question)
 	{
-	if(testdao.existsById(testId))
+	if(testdao.existsById(testId))			//Checking for the existence of entity
 	{
-		Test t=testdao.getOne(testId);
+		Test t=testdao.getOne(testId);		 //Returns a reference to the entity with the given identifier
 		question.setTest(t);
 		t.getTestQuestions().add(question);
 		t.setTestTotalMarks(t.getTestTotalMarks()+question.getQuestionMarks());
 		
-		return testdao.save(t);
+		return testdao.save(t);			//saves the given entity
 	}
 	else
 	{
@@ -43,7 +54,7 @@ QuestionDao questiondao;
 	//Delete question
 	 public String deleteQuestion(BigInteger questionId)
 	    {
-	    	questiondao.deleteById(questionId);
+	    	questiondao.deleteById(questionId);		 //Retrieves an entity by its id.
 	    	return "Question Details Deleted";
 	    }
 	 
@@ -59,20 +70,17 @@ QuestionDao questiondao;
 	     while (it.hasNext()) 
 	     {
 	          Question q= it.next(); 
-	          
+	          System.out.println("hiiiiiiiiiiiiiiiiiiiiiiii");
 	          if(q.getChoosenAnswer()==q.getQuestionAnswer())
 	          {
 	        	  q.setMarksScored(q.getQuestionMarks());
 	          }
 	          testTotalMarks=testTotalMarks+q.getQuestionMarks();
 	          testMarksScored=testMarksScored+q.getMarksScored();
-	          q.setTest(t);
-	          questiondao.save(q);
-		       
 	     }
 		t.setTestTotalMarks(testTotalMarks);
 		t.setTestMarksScored(testMarksScored);
-	     
+		System.out.println("asdfghjklkjhgfd"); 
 		return t;
 	}
 

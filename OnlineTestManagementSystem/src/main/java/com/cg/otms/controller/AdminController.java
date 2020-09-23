@@ -19,8 +19,10 @@ import com.cg.otms.service.AdminService;
 public class AdminController {
 @Autowired                      //enables to inject the object dependency implicitly
 AdminService adminservice;      //Enabling Dependency injection
-    //Admin login method
-	@GetMapping("/adminLogin/{adminId},{adminPassword}")      //Mapping the url
+    
+
+//Administrator login method
+	@GetMapping("/adminLogin/{adminId},{adminPassword}")      //Mapping the URL
 	public String adminLogin(@PathVariable("adminId") String adminId,@PathVariable("adminPassword") String adminPassword) {
 		
 		Optional<Admin> adminDetails = adminservice.adminLogin(adminId,adminPassword); //Invoking a method - adminLogin
@@ -35,8 +37,8 @@ AdminService adminservice;      //Enabling Dependency injection
 		}
 	}
 	
-	//Inserting Admin details into database
-	@PostMapping("/addAdmin")                 //Mapping the url to add admin details
+	//Inserting Administrator details into database
+	@PostMapping("/addAdmin")                 //Mapping the URL to add administrator details
 	public void addAdmin()
 	{
 		adminservice.addAdmin();               //Invoking a method - addAdmin

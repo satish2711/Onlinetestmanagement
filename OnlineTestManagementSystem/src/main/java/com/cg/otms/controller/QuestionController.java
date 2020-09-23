@@ -22,31 +22,42 @@ import com.cg.otms.exception.IdNotFoundException;
 import com.cg.otms.service.QuestionService;
 
 
-@RestController
-@RequestMapping("/testquestions")
+@RestController       					//Indicates that the annotated class is controller
+@RequestMapping("/testquestions")		//mapping web requests onto methods
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin()	//permitting cross-origin requests
 public class QuestionController {
 	
-@Autowired
-QuestionService questionservice;
+@Autowired								//enables to inject the object dependency implicitly
+QuestionService questionservice;		 //Enabling Dependency injection
 
+public void setQuestionservice(QuestionService questionservice)
+{
+	this.questionservice = questionservice;
+}
+
+public QuestionController()
+{
+	
+}
 //Adding question to test with particular testId
-	@PostMapping("/addQuestion/{testId}")
+	@PostMapping("/addQuestion/{testId}")		//Mapping the URL to add the question
 	public ResponseEntity<String> addQuestion(@PathVariable("testId") BigInteger testId,@RequestBody Question question) {
-		Test testDetails = questionservice.addQuestion(testId,question);
+		Test testDetails = questionservice.addQuestion(testId,question);//Invoking a method - addQuestion
+		//Condition - Checking whether the obtained object is null
 		if (testDetails == null) {
 
-			throw new IdNotFoundException("Question not added");
+			throw new IdNotFoundException("Question not added");	//if object is null throwing a IdNotFoundException
 
 		} else {
+			//returning the ResponseEntity<String> with httpStatus and headers
 			return new ResponseEntity<String>("Question added successfully", new HttpHeaders(), HttpStatus.OK);
 		}
 		
 	}
 	
 	
-	 @DeleteMapping("/deleteQuestion/{questionId}")
+	 @DeleteMapping("/deleteQuestion/{questionId}")	//Mapping the URL to delete the question
      public ResponseEntity<String> deleteQuestion(@PathVariable BigInteger questionId)
      {
   	   try
@@ -61,16 +72,17 @@ QuestionService questionservice;
      }
 	 
 	//Calculating total marks in the test
-		@GetMapping("/calculateTotalMarks/{testId}")
-		public Test calculateTotalMarks(@PathVariable BigInteger testId ) {
+		@GetMapping("/calculateTotalMarks/{testId}")	//Mapping the URL to Calculate the marks
+		public ResponseEntity<Test> calculateTotalMarks(@PathVariable BigInteger testId ) {
 			Test testDetails = questionservice.calculateTotalMarks(testId);
 			if (testDetails == null) {
 
-				throw new IdNotFoundException("Test details not found");
+				throw new IdNotFoundException("Test details not found");		//if object is null throwing a IdNotFoundException
 			}
 			else
 			{
-			return testDetails;
+				System.out.println("dfhgjhklhgjvhgvmbkjg");
+			return new ResponseEntity<Test>(testDetails,HttpStatus.OK);
 			}
 		}
 	

@@ -24,7 +24,7 @@ public class UserController {
 @Autowired                //enables to inject the object dependency implicitly
 UserService userservice;  //Enabling Dependency injection
     //user login method
-	@GetMapping("/UserLogin/{userId}/{password}")  //Mapping the url
+	@GetMapping("/UserLogin/{userId}/{password}")  //Mapping the URL
 	public String userLogin(@PathVariable("userId") String userId,@PathVariable("password") String password) {
 		
 		Optional<User> userDetails = userservice.userLogin(userId,password); //Invoking a method userLogin
@@ -40,7 +40,7 @@ UserService userservice;  //Enabling Dependency injection
 	}
 	
 	//Retrieving test details of particular User
-	@GetMapping("/UserTest/{userId}")                   //Mapping the url to get user test details
+	@GetMapping("/UserTest/{userId}")                   //Mapping the URl to get user test details
 	public Test userTest(@PathVariable("userId") String userId) {
 		Test testDetails = userservice.userTest(userId);         //Invoking a method userTest
 		//Condition - Checking whether the obtained object is null
