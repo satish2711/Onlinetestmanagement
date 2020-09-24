@@ -22,18 +22,18 @@ import com.cg.otms.exception.IdNotFoundException;
 import com.cg.otms.service.QuestionService;
 
 
-@RestController       					//Indicates that the annotated class is controller
-@RequestMapping("/testquestions")		//mapping web requests onto methods
+@RestController       									//Indicates that the annotated class is controller
+@RequestMapping("/testquestions")						//mapping web requests onto methods
 
-@CrossOrigin()	//permitting cross-origin requests
+@CrossOrigin()											//permitting cross-origin requests
 public class QuestionController {
 	
-@Autowired								//enables to inject the object dependency implicitly
-QuestionService questionservice;		 //Enabling Dependency injection
+@Autowired												//enables to inject the object dependency implicitly
+QuestionService questionservice;		 				//Enabling Dependency injection
 
 public void setQuestionservice(QuestionService questionservice)
 {
-	this.questionservice = questionservice;
+	this.questionservice = questionservice;				//Invoking a method
 }
 
 public QuestionController()
@@ -41,7 +41,7 @@ public QuestionController()
 	
 }
 //Adding question to test with particular testId
-	@PostMapping("/addQuestion/{testId}")		//Mapping the URL to add the question
+	@PostMapping("/addQuestion/{testId}")				//Mapping the URL to add the question
 	public ResponseEntity<String> addQuestion(@PathVariable("testId") BigInteger testId,@RequestBody Question question) {
 		Test testDetails = questionservice.addQuestion(testId,question);//Invoking a method - addQuestion
 		//Condition - Checking whether the obtained object is null
@@ -73,16 +73,18 @@ public QuestionController()
 	 
 	//Calculating total marks in the test
 		@GetMapping("/calculateTotalMarks/{testId}")	//Mapping the URL to Calculate the marks
-		public ResponseEntity<Test> calculateTotalMarks(@PathVariable BigInteger testId ) {
-			Test testDetails = questionservice.calculateTotalMarks(testId);
-			if (testDetails == null) {
+		public int calculateTotalMarks(@PathVariable BigInteger testId ) {
+			Test testDetails = questionservice.calculateTotalMarks(testId);   //Invoking a method - Calculate marks
+			int t1=testDetails.getTestMarksScored();
+			//Condition - Checking whether the obtained object is zero
+			if (t1 == 0) {
 
 				throw new IdNotFoundException("Test details not found");		//if object is null throwing a IdNotFoundException
 			}
 			else
 			{
-				System.out.println("dfhgjhklhgjvhgvmbkjg");
-			return new ResponseEntity<Test>(testDetails,HttpStatus.OK);
+				
+				return t1;       
 			}
 		}
 	

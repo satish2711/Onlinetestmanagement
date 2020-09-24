@@ -81,7 +81,7 @@ public class TestController {
 		}
 		
 		//Retrieving question details with particular questionId
-		@GetMapping("/getquestions/{testId}")            //mapping the url to get question details of a particular test 
+		@GetMapping("/getquestions/{testId}")            //mapping the URl to get question details of a particular test 
 		public ResponseEntity<Set<Question>> getQuestionById(@PathVariable("testId") BigInteger testId) {
 			
 			Set<Question> questionDetails = testservice.getQuestionById(testId); //Invoking a method- getQuestionById
