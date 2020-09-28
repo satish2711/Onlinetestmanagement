@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -106,6 +107,20 @@ public class TestController {
 			} else {
 				//returning the testDetails with httpStatus and headers
 				return new ResponseEntity<List<Test>>(testDetails, new HttpHeaders(), HttpStatus.OK);
+			}
+		}
+		
+
+		//Updating the test with particular testId
+		@PutMapping("/updateTest/{testId}")
+		public ResponseEntity<String> updateTest(@PathVariable("testId") BigInteger testId,@RequestBody Test test) {
+			Test testDetails = testservice.updateTest(testId,test);
+			if (testDetails == null) {
+				
+				throw new IdNotFoundException("Update Operation Unsuccessful,Provided testId does not exist");
+			
+			} else {
+				return new ResponseEntity<String>("Test updated successfully", new HttpHeaders(), HttpStatus.OK);
 			}
 		}
 		

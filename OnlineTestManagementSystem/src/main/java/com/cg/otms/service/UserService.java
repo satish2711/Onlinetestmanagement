@@ -1,5 +1,7 @@
 package com.cg.otms.service;
 
+
+
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -10,13 +12,31 @@ import org.springframework.stereotype.Service;
 import com.cg.otms.dao.UserDao;
 import com.cg.otms.dto.Test;
 import com.cg.otms.dto.User;
-@Service                     //Indicates that the annotated class is service
-@Transactional               //Defines the scope of a single database transaction
+@Service                     
+@Transactional               
 public class UserService {
-	@Autowired               //enables to inject the object dependency implicitly
-	private UserDao userdao; //Enabling Dependency injection
+	@Autowired               
+	private UserDao userdao; 
 	
-	//User Login method
+	/**
+	 * Adding user details to database
+	 */
+	
+	public User userRegistration(User user)
+		{
+		 if(!userdao.existsById(user.getUserId()))
+			{
+				return userdao.save(user);
+				
+			}
+		 else
+			{
+			return null;
+			}
+		}
+	/**
+	 * User login
+	 */
 	public Optional<User> userLogin(String userId,String password)
 	{
 		
@@ -24,11 +44,25 @@ public class UserService {
 		
 	}
 
-    //Retrieving test details of particular User
+	/**
+	 * Retrieving userTest details by userId
+	 */
 	public Test userTest(String userId) {
 		User u=userdao.getOne(userId);        //Returns a reference to the entity with the given identifier
 		return u.getUserTest();
 	}
-	
+	/**
+	 * Updating password in database
+	 */
+	public int passwordRecovery(String userId,String password,String rePassword)
+	{
+		if(userdao.existsById(userId))
+		{
+		return userdao.update(userId, password, rePassword);	
+		}
+		else
+		{
+			return 0;
+		}			
+			}
 }
-

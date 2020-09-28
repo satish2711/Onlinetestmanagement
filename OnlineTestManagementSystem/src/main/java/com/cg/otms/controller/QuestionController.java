@@ -7,9 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +23,7 @@ import com.cg.otms.service.QuestionService;
 @RestController       									//Indicates that the annotated class is controller
 @RequestMapping("/testquestions")						//mapping web requests onto methods
 
-@CrossOrigin()											//permitting cross-origin requests
+@CrossOrigin("http://localhost:4200")											//permitting cross-origin requests
 public class QuestionController {
 	
 @Autowired												//enables to inject the object dependency implicitly
@@ -51,19 +49,19 @@ public QuestionController()
 
 		} else {
 			//returning the ResponseEntity<String> with httpStatus and headers
-			return new ResponseEntity<String>("Question added successfully", new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<String> ("Question added successfully", new HttpHeaders(), HttpStatus.OK);
 		}
 		
 	}
 	
-	
+	/*
 	 @DeleteMapping("/deleteQuestion/{questionId}")	//Mapping the URL to delete the question
      public ResponseEntity<String> deleteQuestion(@PathVariable BigInteger questionId)
      {
   	   try
   	   {
   		   questionservice.deleteQuestion(questionId);
-  		   return new ResponseEntity<String>("Question Details Deleted Successfully",HttpStatus.OK);
+  		   return new ResponseEntity <String> ("Question Details Deleted Successfully",HttpStatus.OK);
   	   }
   	   catch(Exception ex)
   	 	  {
@@ -87,7 +85,48 @@ public QuestionController()
 				return t1;       
 			}
 		}
-	
+	*/
+	//Update question in a test with particular testId
+		@PostMapping("/updateQuestion/{testId}")
+		public ResponseEntity<String> updateQuestion(@PathVariable("testId") BigInteger testId,@RequestBody Question question) {
+			Question questionDetails = questionservice.updateQuestion(testId,question);
+			if (questionDetails == null) {
+				throw new IdNotFoundException("Update Operation Unsuccessful,Provided testId does not exist");
+			
+			} else {
+				return new ResponseEntity<String>("Question updated successfully", new HttpHeaders(), HttpStatus.OK);
+			}
+		}
+		
+		
+
+	   //Delete question in a Test with particular testId
+		@PostMapping("/deleteQuestion/{testId}")
+		private ResponseEntity<String> deleteQuestion(@PathVariable("testId") BigInteger testId,@RequestBody Question question) {
+			Boolean status = questionservice.deleteQuestion(testId,question);
+			if (status == false) {
+				throw new IdNotFoundException("Delete operation is unsuccessful");
+			
+			} else {
+				return new ResponseEntity<String>("Delete operation is successful", new HttpHeaders(), HttpStatus.OK);
+			
+		}
+		}
+
+		//Calculating total marks in the test
+		@PostMapping("/calculateTotalMarks")
+		public Test calculateTotalMarks(@RequestBody Test test) {
+			Test testDetails = questionservice.calculateTotalMarks(test);
+			if (testDetails == null) {
+
+				throw new IdNotFoundException("Test details not found");
+			}
+			else
+			{
+			return testDetails;
+			}
+		}
+		
 
 	//Exception Handling
 	@ExceptionHandler(IdNotFoundException.class)

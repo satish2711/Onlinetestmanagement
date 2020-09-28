@@ -36,9 +36,9 @@ public class AdminService {
 		LocalDate ld2=LocalDate.of(1983,03,20);
 		//list backed by a specified array
 		List<Admin> admin=Arrays.asList(
-				(new Admin("school@1","narayan","narayan@45",ld,"1234567891")),
-				new Admin("school@2","lakshmi","lakshmi@25",ld1,"0321654987"),
-				new Admin("school@3","sathish kumaran","kumaran@45",ld2,"7896541230")
+				(new Admin("school1","narayan","narayan@45",ld,"1234567891")),
+				new Admin("school2","lakshmi","lakshmi@25",ld1,"0321654987"),
+				new Admin("school3","sathish kumaran","kumaran@45",ld2,"7896541230")
 				
 				);
 				

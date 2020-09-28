@@ -50,7 +50,7 @@ public QuestionService() {}
     return null;
 	}
 	}
-	
+/*	
 	//Delete question
 	 public String deleteQuestion(BigInteger questionId)
 	    {
@@ -62,27 +62,88 @@ public QuestionService() {}
 	 //calculate total marks
 	 public Test calculateTotalMarks(BigInteger testId) {
 		
-		 Test t=testdao.getOne(testId);
+		 Test t=testdao.getOne(testId);    //Returns a reference to the entity with the given identifier
 	     Set<Question> s=t.getTestQuestions();
-	     int testTotalMarks=0;
-	     int testMarksScored=0;
-	     Iterator<Question> it = s.iterator(); 
+	     int testTotalMarks=0;         			//Initializing the values
+	     int testMarksScored=0;					//Initializing the values
+	     Iterator<Question> it = s.iterator();   // Iterating loop
 	     while (it.hasNext()) 
 	     {
 	          Question q= it.next(); 
-	          System.out.println("hiiiiiiiiiiiiiiiiiiiiiiii");
 	          if(q.getChoosenAnswer()==q.getQuestionAnswer())
 	          {
 	        	  q.setMarksScored(q.getQuestionMarks());
 	          }
-	          testTotalMarks=testTotalMarks+q.getQuestionMarks();
-	          testMarksScored=testMarksScored+q.getMarksScored();
+	          testTotalMarks=testTotalMarks+q.getQuestionMarks();//Invoking a method
+	          testMarksScored=testMarksScored+q.getMarksScored();//Invoking a method
 	     }
 		t.setTestTotalMarks(testTotalMarks);
 		t.setTestMarksScored(testMarksScored);
-		System.out.println("asdfghjklkjhgfd"); 
-		return t;
+		return t;						//Retrieves an entity
 	}
 
 
-}
+}*/
+
+	//Update question
+		public Question updateQuestion(BigInteger testId,Question question)
+		{if(testdao.existsById(testId))
+		{
+			Test t=testdao.getOne(testId);
+			question.setTest(t);
+			return questiondao.save(question);
+		}
+		else
+		{
+	      return null;
+		}
+		}
+		
+		//Delete question
+		public boolean  deleteQuestion(BigInteger testId,Question question)
+		{
+			if(testdao.existsById(testId))
+			{
+				
+				 questiondao.delete(question);;
+				return true;
+			
+			}
+			else
+			{
+		      return false;
+			} 
+			
+		}
+
+
+
+
+
+		public Test calculateTotalMarks(Test test) {
+		     Set<Question> s=test.getTestQuestions();
+		     int testTotalMarks=0;
+		     int testMarksScored=0;
+		     Iterator<Question> it = s.iterator(); 
+		     while (it.hasNext()) 
+		     {
+		          Question q= it.next(); 
+		          
+		          if(q.getChoosenAnswer()==q.getQuestionAnswer())
+		          {
+		        	  q.setMarksScored(q.getQuestionMarks());
+		          }
+		          testTotalMarks=testTotalMarks+q.getQuestionMarks();
+		          testMarksScored=testMarksScored+q.getMarksScored();
+		          q.setTest(test);
+		          questiondao.save(q);
+			       
+		     }
+			test.setTestTotalMarks(testTotalMarks);
+			test.setTestMarksScored(testMarksScored);
+		     
+			return test;
+		}
+
+
+	}

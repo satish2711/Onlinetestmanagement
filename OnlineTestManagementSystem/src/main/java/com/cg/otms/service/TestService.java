@@ -34,6 +34,22 @@ public class TestService {
 	public List<Test> testDetails() {
 		return testdao.findAll();           //returns all the instances of the type
 	}
+
+	//Update Test
+	public Test updateTest(BigInteger testId, Test test)
+	{
+		if(testdao.existsById(testId))
+		{
+			Test t=testdao.getOne(testId);
+			test.setTestQuestions(t.getTestQuestions());
+			 return testdao.save(test);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	
 	//Delete Test
 	public String deleteTest(BigInteger testId)
